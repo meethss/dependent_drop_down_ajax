@@ -1,0 +1,36 @@
+{% extends 'blog/nav.html' %}
+{% block body %}
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-inline">
+            <label>Subject</label>
+               <input type="text" id="sname" class="form-control"/>
+            <label>Branch</label>
+            <select class="form-control" aria-label="Default select example" id="bname">
+                <option value=""></option>
+                {% for branch in branchs %}
+                <option value="{{branch.id}}">{{branch.name}}</option>
+                {% endfor %}
+            </select>
+            <button type="button" class="btn btn-primary form-control" id="ssubmit">Submit</button>
+        </div>
+    </form>
+    <hr style="border-top:1px solid #000; clear:both;"/>
+    <table class="table table-bordered">
+        <thead class="alert-warning">
+            <tr>
+                <th>Id</th>
+                <th>Branch Name</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in members %}
+            <tr>
+                <td>{{ member.id }}</td>
+                <td>{{ member.name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
