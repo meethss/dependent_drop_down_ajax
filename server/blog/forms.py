@@ -10,11 +10,20 @@ class CreateMember(ModelForm):
 
 class CreateBranch(ModelForm):
     class Meta:
-        models = Branch
+        model = Branch
         fields = '__all__'
 
 class CreateSubject(ModelForm):
     class Meta:
-        models = Subjects
+        model = Subjects
         fields = '__all__'
 
+class CreateSemester(ModelForm):
+    class Meta:
+        model = Semester
+        fields = '__all__'
+
+class CreateStudent(ModelForm):
+    class Meta:
+        model = Student
+        fields = '__all__'

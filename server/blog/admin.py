@@ -5,3 +5,5 @@ from .models import *
 admin.site.register(Member)
 admin.site.register(Branch)
 admin.site.register(Subjects)
+admin.site.register(Semester)
+admin.site.register(Student)

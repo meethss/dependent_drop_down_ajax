@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import *
-from .forms import CreateMember
+from .forms import *
 import json
 from django.http import HttpResponse
 from django.core import serializers
@@ -53,5 +53,25 @@ def fetchSubject(request):
         return HttpResponse(json_models)
 
     branch = Branch.objects.all()
+    sems = Semester.objects.all()
     # subject = Subjects.objects.all()
-    return render(request, 'blog/students.html', {'branchs':branch})
+    return render(request, 'blog/students.html', {'branchs':branch,'sems':sems})
+
+def fetchstudent(request):
+    if request.GET and request.is_ajax():    
+        students = Student.objects.filter(branch=Branch.objects.get(id= request.GET['bname']),semester=Semester.objects.get(id=request.GET['sname']))
+        json_models = serializers.serialize("json", students)
+        print(json_models)
+        return HttpResponse(json_models)
+
+def newSemester(request):
+    print("+++++++++++++")
+    if request.POST:
+        print("------------")
+        newsem = CreateSemester(request.POST)
+        if newsem.is_valid():
+            newsem.save()
+            redirect('newSemester')
+
+    context = {'newsem':CreateSemester(), 'members':Semester.objects.all()}
+    return render(request, 'blog/new_semester.html',context)

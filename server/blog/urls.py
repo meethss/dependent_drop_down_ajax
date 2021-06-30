@@ -10,6 +10,8 @@ urlpatterns = [
     path("newsubject",views.newSubject, name='subject'),
     path("insertsubject",views.insertSubject, name='insertsubject'),
     path("fetchsubject",views.fetchSubject, name='fetchsubject'),
-    
+    path("newSemester",views.newSemester, name='newSemester'),
+    path("fetchstudent",views.fetchstudent, name='fetchstudent'),
+
 # 
 ]

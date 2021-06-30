@@ -129,12 +129,44 @@ $(document).ready(function(){
                         }
                         $("tbody").html("");
                         $("tbody").html(table);
-                        $("tbodyoption:first").attr('selected', 'selected');
-                        
+                        $("tbodyoption:first").attr('selected', 'selected');   
                 }
             });
         }
     });
 
 
+    // Anj Code
+
+    $('#ssubmit').on('click', function(){
+        $bname = $('#branch').val();
+        $sname = $('#sem').val();
+        if($bname == "" || $sname == "" ){
+            alert("select branch and semester");
+        }else{
+            $.ajax({
+                type: "GET",
+                url: "fetchstudent",
+                data:{
+                    bname: $bname,
+                    sname: $sname,
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function(models){
+                    var obj = JSON.parse(models);
+                    alert(obj);
+                    var table = "";
+                    for (var i = 0; i < obj.length; i++) {
+                        table += '<tr><td>' +(i+1)+ '</td>'+
+                        '<td>'+obj[i].fields['name'] + '</td>'+
+                        '<td>'+obj[i].fields['enrolment'] + '</td>'+
+                        '<td>'+obj[i].fields['semester'] + '</td>'+
+                        '</tr>';
+                        }
+                        $("tbody").html(table);
+                        $("tbodyoption:first").attr('selected', 'selected');   
+                }
+            });
+        }
+    });
 });
