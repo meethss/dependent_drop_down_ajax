@@ -141,6 +141,7 @@ $(document).ready(function(){
     $('#ssubmit').on('click', function(){
         $bname = $('#branch').val();
         $sname = $('#sem').val();
+        $subname = $('#sname').val();
         if($bname == "" || $sname == "" ){
             alert("select branch and semester");
         }else{
@@ -150,18 +151,19 @@ $(document).ready(function(){
                 data:{
                     bname: $bname,
                     sname: $sname,
+                    subname: $subname,
                     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
                 },
                 success: function(models){
                     var obj = JSON.parse(models);
-                    alert(obj);
                     var table = "";
                     for (var i = 0; i < obj.length; i++) {
-                        table += '<tr><td>' +(i+1)+ '</td>'+
+                        table += '<tr id="' + obj[i].pk + '" onchange="Mark(this.id);"><td>' +(i+1)+ '</td>'+
                         '<td>'+obj[i].fields['name'] + '</td>'+
                         '<td>'+obj[i].fields['enrolment'] + '</td>'+
                         '<td>'+obj[i].fields['semester'] + '</td>'+
-                        '</tr>';
+                        // '<td><input type="checkbox" style="zoom:1.5;" name="status" id="status'+i+'" data-student-id="'+obj[i].pk+'"></td></tr>'
+                        '<td data-student-id="'+obj[i].pk+'"><input class="'+obj[i].pk+'" type="radio" name="status'+i+'" value="Present">Present<br><input class="'+obj[i].pk+'" type="radio" name="status'+i+'" value="Absent">Absent<br><input class="'+obj[i].pk+'" type="radio" name="status'+i+'" value="Leave">Leave</td></tr>'
                         }
                         $("tbody").html(table);
                         $("tbodyoption:first").attr('selected', 'selected');   
@@ -169,4 +171,97 @@ $(document).ready(function(){
             });
         }
     });
+    
+    
+
+    // $("input[name^='status-']").each(function(){
+    // $('input[name^="status"]').change(function(){
+    //     alert('call...........');
+    //     $.ajax({
+    //         type: "GET",
+    //         url: "mark",
+    //         data:{
+    //             sid: $(this).attr('data-student-id'),
+    //             bname : $('#branch').val(),
+    //             subname : $('#sname').val(),
+    //             sename: $('#sem').val(),
+    //             status : $(this).val(),
+    //             date: $('#ldate').val(),
+    //             csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+    //         },
+    //         success: function(models){
+    //         }
+    //     });
+    // });
+    
+
 });
+function Mark(id){
+    let status = "leave";
+    let ldate = $('#ldate').val();
+    let element = document.getElementsByClassName(id);
+    
+    for (let i = 0; i < element.length; i++) {
+        if (element[i].checked) {
+            status = element[i].value;
+        }
+    }
+    $.ajax({
+                type: "GET",
+                url: "mark",
+                data:{
+                    sid: id,
+                    bname : $('#branch').val(),
+                    subname : $('#sname').val(),
+                    sename: $('#sem').val(),
+                    status : status,
+                    date: $('#ldate').val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+                success: function(models){
+                }
+            });
+}
+// $(document).on("click", "[id^='status-']", function(){
+// alert('asdjasjdhaksjh');
+//     if (!$(this).is(':checked')) {
+//         alert("Absent student");
+
+//         $.ajax({
+//             type: "GET",
+//             url: "mark",
+//             data:{
+//                 sname: $(this).attr('data-student-id'),
+//                 bname : $('#branch').val(),
+//                 subname : $('#sname').val(),
+//                 sename: $('#sem').val(),
+//                 status : 'Absent',
+//                 date: $('#ldate').val(),
+//                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+//             },
+//             success: function(models){
+//             }
+//         });
+//     }
+//      else {
+//          alert("Present student"+$('#ldate').val());
+
+//         $.ajax({
+//             type: "GET",
+//             url: "mark",
+//             data:{
+//                 sname: $(this).attr('data-student'),
+//                 sename: $(this).attr('data-semester'),
+//                 status : 'Present',
+//                 subname : $('#sname').val(),
+//                 bname : $('#branch').val(),
+//                 date: $('#ldate').val(),
+                
+//                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+//             },
+//             success: function(models){
+//                 alert("Succes");
+//             }
+//         });
+//     }
+// });

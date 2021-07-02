@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 # Create your models here.
 class Member(models.Model):
@@ -38,3 +39,11 @@ class Student(models.Model):
 
     def __str__(self):
         return self.name + " " + str(self.branch)+" "+str(self.semester)
+
+class Attendance(models.Model):
+    student_id = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True)
+    branch_id = models.ForeignKey(Branch,on_delete=models.SET_NULL, null=True)
+    sub_id = models.ForeignKey(Subjects, on_delete=models.SET_NULL, null=True)
+    sem_id = models.ForeignKey(Semester, on_delete=models.SET_NULL, null=True)
+    status = models.CharField(blank=True, null=True, max_length=30)
+    date = models.DateField()

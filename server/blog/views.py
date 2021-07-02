@@ -61,13 +61,10 @@ def fetchstudent(request):
     if request.GET and request.is_ajax():    
         students = Student.objects.filter(branch=Branch.objects.get(id= request.GET['bname']),semester=Semester.objects.get(id=request.GET['sname']))
         json_models = serializers.serialize("json", students)
-        print(json_models)
         return HttpResponse(json_models)
 
 def newSemester(request):
-    print("+++++++++++++")
     if request.POST:
-        print("------------")
         newsem = CreateSemester(request.POST)
         if newsem.is_valid():
             newsem.save()
@@ -75,3 +72,10 @@ def newSemester(request):
 
     context = {'newsem':CreateSemester(), 'members':Semester.objects.all()}
     return render(request, 'blog/new_semester.html',context)
+
+
+def MarkAtt(request):
+    if request.GET and request.is_ajax():
+        print("Hi Haresh")    
+        Attendance.objects.create(student_id=Student.objects.get(id=request.GET['sid']),branch_id=Branch.objects.get(id=request.GET['bname']),sub_id=Subjects.objects.get(id=request.GET['subname']),sem_id=Semester.objects.get(id=request.GET['sename']),status=request.GET['status'],date=request.GET['date'])
+        return HttpResponse("Success")

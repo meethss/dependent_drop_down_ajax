@@ -1,6 +1,9 @@
 {% extends 'blog/nav.html' %}
 {% block body %}
         <div class="form-inline">
+            <label>Date</label>
+            <label>Date</label>
+            <input type="date" id="ldate">
             <label>Branch</label>
             <select class="form-control" aria-label="Default select example" id="branch">
                 <option></option>
@@ -20,21 +23,27 @@
                 
             </select>
             
-            <button type="button" class="btn btn-primary form-control" id="ssubmit">Submit</button>
+            <button type="button" class="btn btn-primary form-control" id="ssubmit">View</button>
+            <button type="button" class="btn btn-primary form-control" id="ssubmit">Update</button>
         </div>
     <hr style="border-top:1px solid #000; clear:both;"/>
-    <table class="table table-bordered">
-        <thead class="alert-warning">
-            <tr>
-                <th>Id</th>
-                <th>student name</th>
-                <th>Roll no</th>
-                <th>Semester</th>
-               
-            </tr>
-        </thead>
-        <tbody>
-            
-        </tbody>
-    </table>
+    <form>
+        <table class="table table-bordered">
+            <thead class="alert-warning">
+                <tr>
+                    <th>Id</th>
+                    <th>student name</th>
+                    <th>Roll no</th>
+                    <th>Semester</th>
+                    <th>Status</th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+        
+    </form>
+    
 {% endblock %}

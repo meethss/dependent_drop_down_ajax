@@ -12,6 +12,7 @@ urlpatterns = [
     path("fetchsubject",views.fetchSubject, name='fetchsubject'),
     path("newSemester",views.newSemester, name='newSemester'),
     path("fetchstudent",views.fetchstudent, name='fetchstudent'),
+    path("mark",views.MarkAtt, name='mark'),
 
 # 
 ]
