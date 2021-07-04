@@ -60,7 +60,9 @@ def fetchSubject(request):
 def fetchstudent(request):
     if request.GET and request.is_ajax():    
         students = Student.objects.filter(branch=Branch.objects.get(id= request.GET['bname']),semester=Semester.objects.get(id=request.GET['sname']))
-        json_models = serializers.serialize("json", students)
+        print(students)
+        json_models = serializers.serialize("json", list(students))
+        print(json_models)
         return HttpResponse(json_models)
 
 def newSemester(request):
@@ -78,4 +80,17 @@ def MarkAtt(request):
     if request.GET and request.is_ajax():
         print("Hi Haresh")    
         Attendance.objects.create(student_id=Student.objects.get(id=request.GET['sid']),branch_id=Branch.objects.get(id=request.GET['bname']),sub_id=Subjects.objects.get(id=request.GET['subname']),sem_id=Semester.objects.get(id=request.GET['sename']),status=request.GET['status'],date=request.GET['date'])
+        return HttpResponse("Success")
+
+def editAttendance(request):
+     if request.GET and request.is_ajax():    
+        students = Attendance.objects.filter(branch_id=Branch.objects.get(id= request.GET['bname']),sem_id=Semester.objects.get(id=request.GET['sname']), date = request.GET['date'],sub_id=Subjects.objects.get(id=request.GET['subname']))
+        json_models = serializers.serialize("json", list(students))
+        print(json_models)
+
+        return HttpResponse(json_models)
+
+def UpdateAttendance(request):
+    if request.GET and request.is_ajax():
+        Attendance.objects.filter(id=request.GET['aid']).update(status=request.GET['status'])
         return HttpResponse("Success")
